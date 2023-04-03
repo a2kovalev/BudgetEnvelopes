@@ -17,57 +17,62 @@ public class EnvelopeController {
 	@Autowired
 	private EnvelopeService envService;
 	
-	@GetMapping("/envelopes")
+	@GetMapping("/api/envelopes")
 	public List<Envelope> getAllEnvs() {
 		return envService.listAllEnvelopes();
 	}
 	
-	@GetMapping("/envelopes/{id}")
+	@GetMapping("/api/envelopes/transactions")
+	public List<Transaction> getAllTransactions() {
+		return envService.listAllTransactions();
+	}
+	
+	@GetMapping("/api/envelopes/{id}")
 	public Envelope getEnv(@PathVariable long id) {
 		return envService.getEnv(id);
 	}
 	
-	@PostMapping("/envelopes")
+	@PostMapping("/api/envelopes")
 	public void addNewEnv(@RequestBody Envelope env) {
 		envService.addEnv(env);
 	}
 	
-	@PutMapping("/envelopes/")
+	@PutMapping("/api/envelopes")
 	public void updateEnv(@RequestBody Envelope env) {
 		envService.updateEnv(env);
 	}
 	
-	@DeleteMapping("/envelopes/{id}")
+	@DeleteMapping("/api/envelopes/{id}")
 	public void removeEnv(@PathVariable long id) {
 		envService.deleteEnv(id);
 	}
 	
-	@PostMapping("/envelopes/{id}/transactions")
+	@PostMapping("/api/envelopes/{id}/transactions")
 	public void addNewTransaction(@RequestBody Transaction t, @PathVariable long id) {
 		envService.addTransaction(t, id);
 	}
 	
-	@GetMapping("/envelopes/{id}/transactions/{tid}") 
+	@GetMapping("/api/envelopes/{id}/transactions/{tid}") 
 	public Transaction getTransaction(@PathVariable long tid) {
 		return envService.getTransaction(tid);
 	}
 	
-	@DeleteMapping("/envleopes/{id}/transactions/{tid}")
+	@DeleteMapping("/api/envleopes/{id}/transactions/{tid}")
 	public void removeTransaction(@PathVariable long tid) {
 		envService.deleteTransaction(tid);
 	}
 	
-	@PutMapping("envelopes/{id}/transactions")
+	@PutMapping("/api/envelopes/{id}/transactions")
 	public void updateTransaction(@RequestBody Transaction t) {
 		envService.updateTransaction(t);
 	}
 	
-	@GetMapping("/envelopes/{id}/transactions")
+	@GetMapping("/api/envelopes/{id}/transactions")
 	public List<Transaction> getAllTransactionsForEnv(@PathVariable long id) {
 		return envService.listAllTransactionsForEnvelope(id);
 	}
 	
-	@DeleteMapping("/envelopes/{id}/reset")
+	@DeleteMapping("/api/envelopes/{id}/reset")
 	public void resetEnvelope (@PathVariable long id) {
 		envService.resetEnv(id);
 	}

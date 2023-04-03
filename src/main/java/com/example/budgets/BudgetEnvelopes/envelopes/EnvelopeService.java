@@ -21,6 +21,12 @@ public class EnvelopeService {
 		return envs;
 	}
 	
+	public List<Transaction> listAllTransactions () {
+		List<Transaction> ts = new ArrayList<>();
+		tRepo.findAll().forEach(ts::add);
+		return ts;
+	}
+	
 	public List<Transaction> listAllTransactionsForEnvelope (long id) {
 		List<Transaction> ts = new ArrayList<>();
 		Iterable<Transaction> titer = tRepo.findAll();
@@ -38,6 +44,7 @@ public class EnvelopeService {
 	
 	public void addTransaction(Transaction t, long id) {
 		t.setEnvelope(getEnv(id));
+		t.setDate();
 		tRepo.save(t);
 		getEnvOfTran(t.getId()).updateBalance(t.getAmount());
 		updateEnv(getEnvOfTran(t.getId()));

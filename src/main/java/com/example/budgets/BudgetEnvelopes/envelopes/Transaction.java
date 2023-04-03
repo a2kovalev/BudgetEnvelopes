@@ -1,7 +1,7 @@
 package com.example.budgets.BudgetEnvelopes.envelopes;
 
+import java.sql.Date;
 import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +16,7 @@ public class Transaction {
 	private String name;
 	private Double amount;
 	private String cur;
-	private LocalDate date;
+	private Date date;
 	private String note;
 	@ManyToOne
 	private Envelope envelope;
@@ -26,7 +26,6 @@ public class Transaction {
 	}
 
 	public Transaction(long id, String name, Double amount, String cur, String note) {
-		date = LocalDate.now();
 		this.id = id;
 		this.name = name;
 		this.amount = amount;
@@ -81,8 +80,13 @@ public class Transaction {
 	public void setEnvelope(Envelope envelope) {
 		this.envelope = envelope;
 	}
+	
+	public void setDate() {
+		LocalDate predate = LocalDate.now();
+		this.date = Date.valueOf(predate);
+	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
