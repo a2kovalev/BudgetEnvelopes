@@ -31,8 +31,12 @@ public class EnvelopeService {
 		List<Transaction> ts = new ArrayList<>();
 		Iterable<Transaction> titer = tRepo.findAll();
 		for (Transaction t: titer) {
-			if (t.getEnvelope().getId() == id) {
-				ts.add(t);
+			if (t.getEnvelope() == null) {
+				tRepo.delete(t);
+			} else {
+				if (t.getEnvelope().getId() == id) {
+					ts.add(t);
+				}
 			}
 		}
 		return ts;
@@ -46,8 +50,9 @@ public class EnvelopeService {
 		t.setEnvelope(getEnv(id));
 		t.setDate();
 		tRepo.save(t);
-		getEnvOfTran(t.getId()).updateBalance(t.getAmount());
-		updateEnv(getEnvOfTran(t.getId()));
+		Envelope prev = getEnvOfTran(t.getId());
+		prev.updateBalance(t.getAmount());
+		updateEnv(prev.getId(), prev);
 	}
 	
 	public Envelope getEnv(long id) {
@@ -55,21 +60,30 @@ public class EnvelopeService {
 	}
 	
 	public Transaction getTransaction(long tid) {
-		return tRepo.findById(tid).get();
+		return tRepo.findTransactionById(tid);
 	}
 	
-	public void updateEnv(Envelope env) {
-		envRepo.save(env);
+	public void updateEnv(long id, Envelope env) {
+		Envelope prevEnv = getEnv(id);
+		prevEnv.setBalance(env.getBalance());
+		prevEnv.setEnvelopeName(env.getEnvelopeName());
+		envRepo.save(prevEnv);
 	}
 	
-	public void updateTransaction(Transaction t) {
-		double prevAmt = tRepo.findById(t.getId()).get().getAmount();
+	public void updateTransaction(long tid, Transaction t) {
+		Transaction prevTrans = getTransaction(tid);
+		double prevAmt = prevTrans.getAmount();
+		prevTrans.setAmount(t.getAmount());
+		prevTrans.setNote(t.getNote());
+		prevTrans.setName(t.getName());
+		prevTrans.setCur(t.getCur());
+		System.out.println("Prev ID: " + prevTrans.getId());
+		tRepo.save(prevTrans);
 		if (t.getAmount() != prevAmt) {
 			double change = t.getAmount() - prevAmt;
-			getEnvOfTran(t.getId()).updateBalance(change);
-			updateEnv(getEnvOfTran(t.getId()));
-		} else {
-			tRepo.save(t);
+			Envelope prev = getEnvOfTran(t.getId());
+			prev.updateBalance(change);
+			updateEnv(prev.getId(), prev);
 		}
 	}
 	
@@ -80,8 +94,9 @@ public class EnvelopeService {
 	
 	public void deleteTransaction(long tid) {
 		Transaction t = tRepo.findById(tid).get();
-		getEnvOfTran(tid).updateBalance(t.getAmount() * -1);
-		updateEnv(getEnvOfTran(t.getId()));
+		Envelope prev = getEnvOfTran(tid);
+		prev.updateBalance(t.getAmount() * -1);
+		updateEnv(prev.getId(), prev);
 		tRepo.deleteById(tid);
 	}
 	
@@ -93,12 +108,17 @@ public class EnvelopeService {
 	public void resetEnv(long id) {
 		Iterable<Transaction> titer = tRepo.findAll();
 		for (Transaction t: titer) {
-			if (t.getEnvelope().getId() == id) {
-				deleteTransaction(t.getId());
+			if (t.getEnvelope() == null) {
+				tRepo.delete(t);
+			} else {
+				if (t.getEnvelope().getId() == id) {
+					deleteTransaction(t.getId());
+				}
 			}
 		}
-		getEnv(id).setBalance(0.00);
-		updateEnv(getEnv(id));
+		Envelope prev = getEnv(id);
+		prev.setBalance(0.00);
+		updateEnv(prev.getId(), prev);
 	}
 	
 }

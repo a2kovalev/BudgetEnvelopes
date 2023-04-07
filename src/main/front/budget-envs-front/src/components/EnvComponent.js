@@ -59,9 +59,20 @@ class EnvComponent extends React.Component {
                                     <h3>{env.envelopeName}</h3>
                                     <h3>{formatter.format(env.balance)}</h3>
                                     <h3>Transactions:</h3>
-                                    <ul>{this.transactionsForEnv(env).map (t =>
-                                        <li>{t.date}: {t.name} - {formatter.format(t.amount)}</li>
-                                    )}</ul>
+                                    <table className="transTable">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Transaction</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                        {this.transactionsForEnv(env).map (t =><>
+                                        <tr>
+                                            <td>{t.date}</td>
+                                            <td>{t.name}</td>
+                                            <td>{formatter.format(t.amount)}</td>
+                                        </tr></>)}
+                                        
+                                    </table>
                                 </div>
                         )
                     }    

@@ -37,9 +37,9 @@ public class EnvelopeController {
 		envService.addEnv(env);
 	}
 	
-	@PutMapping("/api/envelopes")
-	public void updateEnv(@RequestBody Envelope env) {
-		envService.updateEnv(env);
+	@PutMapping("/api/envelopes/{id}")
+	public void updateEnv(@RequestBody Envelope env, @PathVariable long id) {
+		envService.updateEnv(id, env);
 	}
 	
 	@DeleteMapping("/api/envelopes/{id}")
@@ -57,14 +57,14 @@ public class EnvelopeController {
 		return envService.getTransaction(tid);
 	}
 	
-	@DeleteMapping("/api/envleopes/{id}/transactions/{tid}")
+	@DeleteMapping("/api/envelopes/{id}/transactions/{tid}")
 	public void removeTransaction(@PathVariable long tid) {
 		envService.deleteTransaction(tid);
 	}
 	
-	@PutMapping("/api/envelopes/{id}/transactions")
-	public void updateTransaction(@RequestBody Transaction t) {
-		envService.updateTransaction(t);
+	@PutMapping("/api/envelopes/{id}/transactions/{tid}")
+	public void updateTransaction(@RequestBody Transaction t, @PathVariable long tid) {
+		envService.updateTransaction(tid, t);
 	}
 	
 	@GetMapping("/api/envelopes/{id}/transactions")
