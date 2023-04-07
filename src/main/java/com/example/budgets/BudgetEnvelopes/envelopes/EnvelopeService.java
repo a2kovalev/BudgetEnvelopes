@@ -77,11 +77,10 @@ public class EnvelopeService {
 		prevTrans.setNote(t.getNote());
 		prevTrans.setName(t.getName());
 		prevTrans.setCur(t.getCur());
-		System.out.println("Prev ID: " + prevTrans.getId());
 		tRepo.save(prevTrans);
 		if (t.getAmount() != prevAmt) {
 			double change = t.getAmount() - prevAmt;
-			Envelope prev = getEnvOfTran(t.getId());
+			Envelope prev = getEnvOfTran(prevTrans.getId());
 			prev.updateBalance(change);
 			updateEnv(prev.getId(), prev);
 		}
