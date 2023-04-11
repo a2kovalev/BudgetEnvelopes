@@ -10,6 +10,10 @@ class EnvelopeService {
     getTransactions() {
         return axios.get(ENV_API_UTIL + "/transactions")
     }
+
+    getTransactionsForEnv(envID) {
+        return axios.get(ENV_API_UTIL + "/" + envID + "/transactions")
+    }
 }
 
 export default new EnvelopeService
