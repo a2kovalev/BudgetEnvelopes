@@ -1,7 +1,7 @@
 import EnvService from "../services/EnvService";
-import TransComponent from "./TransComponent";
 import React from 'react';
 import EnvCard from "./EnvCard";
+import TransComponent from "./TransComponent";
 
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -14,8 +14,26 @@ class EnvComponent extends React.Component {
         this.state={
             envelopes:[],
             transactions: [],
-            transactionsForEnv : []
+            transactionsForEnv : [],
+            currentEnv : null,
+            showTransactionsForEnv : false
         }
+    }
+
+    setCurrentEnv = (newEnv) => {
+        console.log("NEW ENV")
+        console.log(newEnv.envelopeName)
+        this.setState(prevState => ({
+            currentEnv : newEnv
+            })
+        )
+    }
+
+    flipShowTransactions = () => {
+        this.setState(prevState => ({
+            showTransactionsForEnv : !prevState.showTransactionsForEnv
+            })
+        );
     }
 
     componentDidMount() {
@@ -31,15 +49,14 @@ class EnvComponent extends React.Component {
         return (
             <div>
                 <h2>Envelopes</h2>
-                <body className="EnvBody">
                     {
                         this.state.envelopes.map (
-                            env =><div>
-                                    <EnvCard env={env}/>
+                            env =><div className="EnvCardHolder">
+                                    <EnvCard env={env} currentEnv={this.setCurrentEnv} showTransactions={this.flipShowTransactions}/>
                                 </div>
                         )
                     } 
-                </body>
+                    {this.state.currentEnv != null && this.state.showTransactionsForEnv ? <TransComponent env={this.state.currentEnv}/> : null}
             </div>
         );
     }

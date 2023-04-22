@@ -28,6 +28,13 @@ ul {
   word-wrap: break-word;
   text-overflow: ellipsis;
   border-radius: 25px;
+  position: inherit;
+  z-index: inherit;
+}
+
+.TransactionBody {
+  position: inherit;
+  z-index: 2;
 }
 
 .EnvName {
@@ -38,7 +45,13 @@ ul {
   display: inline-block;
 }
 
-.EnvBody {
+.EnvCardHolder {
+  display: inline-flex;
+  position: relative;
+  z-index: 1;
+}
+
+.EnvAndTransContainer {
   display: inline-flex;
 }
 
