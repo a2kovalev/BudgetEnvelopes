@@ -11,31 +11,33 @@ const formatter = new Intl.NumberFormat('en-US', {
 class EnvCard extends React.Component {
     constructor(props) {
         super(props)
-        // this.state={
-        //     showTransactions : false
-        // }
         this.env = props.env
+        this.state = {
+            bgColour : ""
+        }
     }
 
     handleClick = () => {
-        // this.setState(prevState => ({
-        //     showTransactions : !prevState.showTransactions
-        //     })
-        // );
+        if (this.state.bgColour == "") {
+            this.setState ({
+                bgColour : "lightgray"
+            })
+        } else {
+            this.setState({
+                bgColour : ""
+            })
+        }
         this.props.showTransactions()
         this.props.currentEnv(this.env)
     }
 
     render() {
         console.log(this.showTransactions)
-            return[<div className="EnvAndTransContainer">
-                        <div className="EnvCard" onClick={this.handleClick}>
+            return[<div className="EnvContainer">
+                        <div className="EnvCard" style={{backgroundColor : this.state.bgColour}} onClick={this.handleClick}>
                             <p className="EnvName">{this.env.envelopeName}</p>
                             <p className="EnvBalance">{formatter.format(this.env.balance)}</p>
                         </div>
-                    </div>,
-                    <div className="TransactionBody">
-                        {/* {this.state.showTransactions ? <TransComponent env={this.env}/> : null} */}
                     </div>];
         }
 }

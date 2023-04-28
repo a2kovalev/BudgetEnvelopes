@@ -51,8 +51,18 @@ ul {
   z-index: 1;
 }
 
-.EnvAndTransContainer {
+.EnvContainer {
   display: inline-flex;
+}
+
+.TransContainer {
+  position:fixed;
+  background: white;
+  width: 80%;
+  height: auto;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%)
 }
 
 .TransListTable {

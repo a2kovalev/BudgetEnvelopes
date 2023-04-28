@@ -22,7 +22,7 @@ class TransComponent extends React.Component {
 
     render() {
         return(
-            <div>
+            <div className="TransContainer">
                 <h3 className="TranLabel">Transactions for {this.env.envelopeName}</h3>
                 {
                     this.state.transactions.map(tran => 
