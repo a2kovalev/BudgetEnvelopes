@@ -43,14 +43,25 @@ class EnvComponent extends React.Component {
             newEnvClicked : !prevState.newEnvClicked
             })
         );
+        if (this.state.newEnvClicked == true) {
+            this.componentDidUpdate()
+        }
     }
 
     componentDidMount() {
+        this.componentDidCode()
+    }
+
+    componentDidCode() {
         EnvService.getEnvelopes().then((response) => {
             console.log(`Envelope data:`);
             console.log(response.data)
             this.setState({envelopes : response.data});
         });
+    }
+
+    componentDidUpdate() {
+        this.componentDidCode()
     }
 
     handleNewEnvClick = () => {
