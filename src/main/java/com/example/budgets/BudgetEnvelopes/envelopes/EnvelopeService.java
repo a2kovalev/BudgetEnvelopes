@@ -116,8 +116,10 @@ public class EnvelopeService {
 			}
 		}
 		Envelope prev = getEnv(id);
-		prev.setBalance(0.00);
-		updateEnv(prev.getId(), prev);
+		if (prev != null) {
+			prev.setBalance(0.00);
+			updateEnv(prev.getId(), prev);
+		}
 	}
 	
 }

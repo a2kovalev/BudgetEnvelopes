@@ -3,6 +3,8 @@ import React from 'react';
 import EnvCard from "./EnvCard";
 import TransComponent from "./TransComponent";
 import EnvCreation from "./EnvCreation";
+import EnvDelete from "./EnvDelete";
+import EnvNameChange from "./EnvNameChange";
 
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -18,13 +20,12 @@ class EnvComponent extends React.Component {
             transactionsForEnv : [],
             currentEnv : null,
             showTransactionsForEnv : false,
-            newEnvClicked : false
+            newEnvClicked : false,
+            renameEnvClicked : false
         }
     }
 
     setCurrentEnv = (newEnv) => {
-        console.log("NEW ENV")
-        console.log(newEnv.envelopeName)
         this.setState(prevState => ({
             currentEnv : newEnv
             })
@@ -38,13 +39,16 @@ class EnvComponent extends React.Component {
         );
     }
 
-    flipNewEnvClicked = () => {
+    flipRenameClicked = () => {
         this.setState(prevState => ({
-            newEnvClicked : !prevState.newEnvClicked
+            renameEnvClicked : !prevState.renameEnvClicked
             })
         );
-        if (this.state.newEnvClicked == true) {
-            this.componentDidUpdate()
+    }
+
+    unselectEnv = () => {
+        if (this.state.currentEnv != null) {
+            this.setCurrentEnv(null);
         }
     }
 
@@ -70,19 +74,45 @@ class EnvComponent extends React.Component {
         }))
     }
 
+    handleRenameEnv = () => {
+        this.setState(prevState => ({
+            renameEnvClicked : !prevState.renameEnvClicked
+        }))
+    }
+
+    doneRenameEnv = () => {
+        this.handleRenameEnv()
+    }
+
+    handleDeleteEnv = () => {
+        EnvService.deleteEnvelope(this.state.currentEnv.id)
+        this.flipShowTransactions()
+        this.unselectEnv()
+        this.componentDidUpdate()
+    }
+
+    handleResetEnv = () => {
+        EnvService.resetEnvelope(this.state.currentEnv.id)
+        this.componentDidUpdate()
+    }
+
     render() {
        console.log("In render");
         return (
             <div>
                 <h2>Envelopes</h2>
-                {!this.state.newEnvClicked ? <button className = "NewEnvButton" onClick={this.handleNewEnvClick}> New Envelope</button> : null}
-                {this.state.newEnvClicked ?  <EnvCreation newEnvClicked={this.flipNewEnvClicked} /> : null}
+                {!this.state.newEnvClicked && this.state.currentEnv == null ? <button className = "NewEnvButton" onClick={this.handleNewEnvClick}> New Envelope</button> : null}
+                {this.state.newEnvClicked ?  <EnvCreation newEnvClicked={this.handleNewEnvClick} /> : null}
+                {this.state.currentEnv != null && this.state.showTransactionsForEnv ? <button className = "DeleteEnvButton" onClick={this.handleDeleteEnv}>Delete Envelope</button> : null}
+                {this.state.currentEnv != null && this.state.showTransactionsForEnv ? <button className = "ResetEnvButton" onClick={this.handleResetEnv}>Reset Balance</button> : null}
+                {this.state.currentEnv != null ? <button className = "RenameEnvButton" onClick={this.handleRenameEnv}>Rename</button> : null}
+                {this.state.renameEnvClicked ? <EnvNameChange env={this.state.currentEnv} done={this.doneRenameEnv} /> : null}
                 <br></br>
                 <br></br>
                 {
                     this.state.envelopes.map (
                         env =><div className="EnvCardHolder">
-                                <EnvCard env={env} currentEnv={this.setCurrentEnv} showTransactions={this.flipShowTransactions}/>
+                                <EnvCard env={env} unselectEnv={this.unselectEnv} setCurrentEnv={this.setCurrentEnv} showTransactions={this.flipShowTransactions}/>
                             </div>
                     )
                 } 

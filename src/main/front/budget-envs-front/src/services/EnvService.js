@@ -17,12 +17,24 @@ class EnvelopeService {
          console.log(response.status, response.data.token);
     }
 
+    async deleteEnvelope(envID) {
+        const response = await axios.delete(ENV_API_UTIL + "/" + envID);
+    }
+
+    async resetEnvelope(envID) {
+        const response = await axios.delete(ENV_API_UTIL + "/" + envID + "/reset")
+    }
+
+    async updateEnvelope(envData, envID) {
+        const response = await axios.put(ENV_API_UTIL + "/" + envID, envData);
+    }
+
     getTransactions() {
-        return axios.get(ENV_API_UTIL + "/transactions")
+        return axios.get(ENV_API_UTIL + "/transactions");
     }
 
     getTransactionsForEnv(envID) {
-        return axios.get(ENV_API_UTIL + "/" + envID + "/transactions")
+        return axios.get(ENV_API_UTIL + "/" + envID + "/transactions");
     }
 }
 

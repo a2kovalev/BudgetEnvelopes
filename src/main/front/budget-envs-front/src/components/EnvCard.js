@@ -28,7 +28,16 @@ class EnvCard extends React.Component {
             })
         }
         this.props.showTransactions()
-        this.props.currentEnv(this.env)
+        this.props.setCurrentEnv(this.env)
+        this.props.unselectEnv()
+    }
+
+    componentDidMount() {
+        this.env = this.props.env
+    }
+
+    componentDidUpdate() {
+        this.env = this.props.env
     }
 
     render() {

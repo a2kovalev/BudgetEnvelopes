@@ -19,6 +19,9 @@ class TransComponent extends React.Component {
         });
     }
 
+    componentDidUpdate() {
+        this.env = this.props.env
+    }
 
     render() {
         return(
