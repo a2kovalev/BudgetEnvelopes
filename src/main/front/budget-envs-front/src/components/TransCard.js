@@ -10,21 +10,36 @@ class TransCard extends React.Component {
   constructor(props) {
     super(props);
     this.tran = props.tran;
+    this.state = {
+      bgColour : ""
   }
+  }
+
+handleOnClick = () => {
+  if (this.state.bgColour == "") {
+    this.setState ({
+        bgColour : "darkgrey"
+    })
+} else {
+    this.setState({
+        bgColour : ""
+    })
+}
+  this.props.setTrans(this.tran)
+  this.props.unselectTran()
+}
+
+componentDidUpdate() {
+  this.tran = this.props.tran
+}
+
   render() {
     return(
-      <table className="TransListTable">
-        <tr>
-          <th>Date</th>
-          <th>Name</th>
-          <th>Amount</th>
-        </tr>
-        <tr>
+        <tr className="transRow" onClick={this.handleOnClick} style={{backgroundColor : this.state.bgColour}}>
           <td>{this.tran.date}</td>
           <td>{this.tran.name}</td>
           <td>{formatter.format(this.tran.amount)}</td>
         </tr>
-      </table>
     );
   }
 }

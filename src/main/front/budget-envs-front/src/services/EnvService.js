@@ -22,7 +22,7 @@ class EnvelopeService {
     }
 
     async resetEnvelope(envID) {
-        const response = await axios.delete(ENV_API_UTIL + "/" + envID + "/reset")
+        const response = await axios.delete(ENV_API_UTIL + "/" + envID + "/reset");
     }
 
     async updateEnvelope(envData, envID) {
@@ -35,6 +35,14 @@ class EnvelopeService {
 
     getTransactionsForEnv(envID) {
         return axios.get(ENV_API_UTIL + "/" + envID + "/transactions");
+    }
+
+    async postTransaction(envID, tranData) {
+        const response = await axios.post(ENV_API_UTIL + "/" + envID + "/transactions", tranData);
+    }
+
+    async deleteTran(envID, tranID) {
+        const response = await axios.delete(ENV_API_UTIL + "/" + envID + "/transactions/" + tranID);
     }
 }
 

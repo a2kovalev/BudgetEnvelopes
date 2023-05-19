@@ -38,6 +38,13 @@ class EnvCard extends React.Component {
 
     componentDidUpdate() {
         this.env = this.props.env
+        this.reHighlight()
+    }
+
+    reHighlight = () => {
+        if (this.state.bgColour == "" && this.props.selected) {
+            this.setState({bgColour : "lightgray"})
+        }
     }
 
     render() {

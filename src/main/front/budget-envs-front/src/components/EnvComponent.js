@@ -26,10 +26,7 @@ class EnvComponent extends React.Component {
     }
 
     setCurrentEnv = (newEnv) => {
-        this.setState(prevState => ({
-            currentEnv : newEnv
-            })
-        )
+        this.setState({currentEnv : newEnv})
     }
 
     flipShowTransactions = () => {
@@ -111,8 +108,8 @@ class EnvComponent extends React.Component {
                 <br></br>
                 {
                     this.state.envelopes.map (
-                        env =><div className="EnvCardHolder">
-                                <EnvCard env={env} unselectEnv={this.unselectEnv} setCurrentEnv={this.setCurrentEnv} showTransactions={this.flipShowTransactions}/>
+                        env => <div className="EnvCardHolder">
+                                <EnvCard env={env} selected={this.currentEnv == env} unselectEnv={this.unselectEnv} setCurrentEnv={this.setCurrentEnv} showTransactions={this.flipShowTransactions}/>
                             </div>
                     )
                 } 

@@ -34,7 +34,6 @@ ul {
 
 .TransactionBody {
   position: inherit;
-  z-index: 2;
 }
 
 .EnvName {
@@ -48,7 +47,7 @@ ul {
 .EnvCardHolder {
   display: inline-flex;
   position: relative;
-  z-index: 1;
+  z-index: 0;
 }
 
 .EnvContainer {
@@ -56,14 +55,21 @@ ul {
   cursor: pointer;
 }
 
+.TransListTopRow {
+  background-color: bisque;
+}
+
 .TransContainer {
-  position:fixed;
-  background: white;
-  width: 80%;
+  position:absolute;
+  background: lightgreen;
+  padding: 1%;
+  border-radius: 25px;
+  width: 50%;
   height: auto;
   top:50%;
   left:50%;
-  transform: translate(-50%,-50%)
+  transform: translate(-50%,-50%);
+  z-index:1;
 }
 
 .TransListTable {
@@ -74,6 +80,8 @@ ul {
   margin-right: auto;
   overflow: hidden;
   word-wrap: break-word;
+  z-index: inherit;
+  background-color: aliceblue;
 }
 
 .td, th, tr {
