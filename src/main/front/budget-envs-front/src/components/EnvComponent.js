@@ -96,24 +96,28 @@ class EnvComponent extends React.Component {
     render() {
        console.log("In render");
         return (
-            <div>
-                <h2>Envelopes</h2>
-                {!this.state.newEnvClicked && this.state.currentEnv == null ? <button className = "NewEnvButton" onClick={this.handleNewEnvClick}> New Envelope</button> : null}
-                {this.state.newEnvClicked ?  <EnvCreation newEnvClicked={this.handleNewEnvClick} /> : null}
-                {this.state.currentEnv != null && this.state.showTransactionsForEnv ? <button className = "DeleteEnvButton" onClick={this.handleDeleteEnv}>Delete Envelope</button> : null}
-                {this.state.currentEnv != null && this.state.showTransactionsForEnv ? <button className = "ResetEnvButton" onClick={this.handleResetEnv}>Reset Balance</button> : null}
-                {this.state.currentEnv != null ? <button className = "RenameEnvButton" onClick={this.handleRenameEnv}>Rename</button> : null}
-                {this.state.renameEnvClicked ? <EnvNameChange env={this.state.currentEnv} done={this.doneRenameEnv} /> : null}
-                <br></br>
-                <br></br>
-                {
-                    this.state.envelopes.map (
-                        env => <div className="EnvCardHolder">
-                                <EnvCard env={env} selected={this.currentEnv == env} unselectEnv={this.unselectEnv} setCurrentEnv={this.setCurrentEnv} showTransactions={this.flipShowTransactions}/>
-                            </div>
-                    )
-                } 
-                {this.state.currentEnv != null && this.state.showTransactionsForEnv ? <TransComponent env={this.state.currentEnv}/> : null}
+            <div className="MainContainer">
+                <div>
+                    <h2>Envelopes</h2>
+                    {!this.state.newEnvClicked && this.state.currentEnv == null ? <button className = "NewEnvButton" onClick={this.handleNewEnvClick}> New Envelope</button> : null}
+                    {this.state.newEnvClicked ?  <EnvCreation newEnvClicked={this.handleNewEnvClick} /> : null}
+                    {this.state.currentEnv != null && this.state.showTransactionsForEnv ? <button className = "DeleteEnvButton" onClick={this.handleDeleteEnv}>Delete Envelope</button> : null}
+                    {this.state.currentEnv != null && this.state.showTransactionsForEnv ? <button className = "ResetEnvButton" onClick={this.handleResetEnv}>Reset Balance</button> : null}
+                    {this.state.currentEnv != null ? <button className = "RenameEnvButton" onClick={this.handleRenameEnv}>Rename</button> : null}
+                    {this.state.renameEnvClicked ? <EnvNameChange env={this.state.currentEnv} done={this.doneRenameEnv} /> : null}
+                    <br></br>
+                    <br></br>
+                    {
+                        this.state.envelopes.map (
+                            env => <div className="EnvCardHolder">
+                                    <EnvCard env={env} selected={this.currentEnv == env} unselectEnv={this.unselectEnv} setCurrentEnv={this.setCurrentEnv} showTransactions={this.flipShowTransactions}/>
+                                </div>
+                        )
+                    } 
+                </div>
+                <div>
+                    {this.state.currentEnv != null && this.state.showTransactionsForEnv ? <TransComponent env={this.state.currentEnv}/> : null}
+                </div>
             </div>
         );
     }
