@@ -2,6 +2,7 @@ import EnvService from "../services/EnvService";
 import React from 'react';
 import TransCard from "./TransCard";
 import TranCreation from "./TranCreation";
+import TranEdit from "./TranEdit";
 
 class TransComponent extends React.Component {
     constructor(props) {
@@ -9,7 +10,8 @@ class TransComponent extends React.Component {
         this.state={
             transactions : [],
             currentTransaction : null,
-            newTranClicked : false
+            newTranClicked : false,
+            renameTranClicked : false
         }
         this.env = props.env;
     }
@@ -54,6 +56,12 @@ class TransComponent extends React.Component {
         this.componentDidUpdate()
     }
 
+    handleRenameTran = () => {
+        this.setState(prevState => ({
+            renameTranClicked : !prevState.renameTranClicked
+        }))
+    }
+
     render() {
         return(
             <div className="TransContainer">
@@ -61,8 +69,10 @@ class TransComponent extends React.Component {
                 {this.state.currentTransaction == null && this.state.newTranClicked == false ?  <button onClick={this.handleNewTranClick}>Add Transaction</button> : null}
                 {this.state.newTranClicked != false ? <TranCreation newTranClicked={this.handleNewTranClick} env={this.env}/> : null}
                 {this.state.currentTransaction != null ? <button onClick={this.handleDeleteTran}>Delete Transaction</button> : null}
+                {this.state.currentTransaction != null ? <button onClick={this.handleRenameTran}>Edit Transaction</button> : null}
+                {this.state.renameTranClicked ? <TranEdit done={this.handleRenameTran} envID={this.env.id} tran={this.state.currentTransaction}/> : null}
                 <br></br>
-                {this.state.currentTransaction != null && this.state.currentTransaction.note != null && this.state.currentTransaction.note != "" ? <p>{this.state.currentTransaction.name}: {this.state.currentTransaction.note}</p> : null}
+                {this.state.currentTransaction != null && this.state.currentTransaction.note != null && this.state.renameTranClicked == false && this.state.currentTransaction.note != "" ? <p>{this.state.currentTransaction.name}: {this.state.currentTransaction.note}</p> : null}
                 <br></br>
                 <table className="TransListTable">
                     <tr className="TransListTopRow">

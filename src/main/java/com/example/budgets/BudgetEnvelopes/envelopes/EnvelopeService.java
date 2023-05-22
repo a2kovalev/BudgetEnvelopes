@@ -94,7 +94,9 @@ public class EnvelopeService {
 	public void deleteTransaction(long tid) {
 		Transaction t = tRepo.findById(tid).get();
 		Envelope prev = getEnvOfTran(tid);
-		prev.updateBalance(t.getAmount() * -1);
+		if (t.getAmount() != null) {
+			prev.updateBalance(t.getAmount() * -1);
+		}
 		updateEnv(prev.getId(), prev);
 		tRepo.deleteById(tid);
 	}

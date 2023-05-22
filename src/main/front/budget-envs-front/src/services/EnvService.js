@@ -44,6 +44,10 @@ class EnvelopeService {
     async deleteTran(envID, tranID) {
         const response = await axios.delete(ENV_API_UTIL + "/" + envID + "/transactions/" + tranID);
     }
+
+    async updateTransaction(tranData, tranID, envID) {
+        const response = await axios.put(ENV_API_UTIL + "/" + envID + "/transactions/" + tranID, tranData);
+    }
 }
 
 export default new EnvelopeService
